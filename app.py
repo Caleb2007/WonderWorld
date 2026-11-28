@@ -11,6 +11,246 @@ st.set_page_config(
     layout="wide"
 )
 
+# Rose Garden visual theme
+st.markdown("""
+<style>
+    :root {
+        --blush-bg: #FFF7F9;
+        --rose-50: #FFF1F5;
+        --rose-100: #FDE2EA;
+        --rose-200: #F7C8D6;
+        --rose-500: #C94F79;
+        --rose-600: #AD3E65;
+        --rose-700: #91314F;
+        --plum: #4A2034;
+        --mauve: #806978;
+        --border: #E7CDD5;
+        --white: #FFFFFF;
+    }
+
+    .stApp {
+        background: var(--blush-bg);
+        color: var(--plum);
+    }
+
+    [data-testid="stAppViewContainer"] {
+        background:
+            radial-gradient(circle at 92% 4%, rgba(201, 79, 121, 0.06), transparent 20rem),
+            var(--blush-bg);
+    }
+
+    [data-testid="stHeader"] {
+        background: transparent;
+    }
+
+    [data-testid="stMainBlockContainer"] {
+        max-width: 1120px;
+        padding-top: 2.25rem;
+        padding-bottom: 3rem;
+    }
+
+    h1 {
+        color: var(--plum) !important;
+        font-size: clamp(2rem, 4vw, 3.1rem) !important;
+        font-weight: 750 !important;
+        letter-spacing: -0.035em;
+        margin-bottom: 0.5rem !important;
+    }
+
+    h2 {
+        color: var(--plum) !important;
+        font-size: clamp(1.35rem, 2.3vw, 1.75rem) !important;
+        font-weight: 700 !important;
+        margin-top: 0.25rem !important;
+    }
+
+    [data-testid="stMarkdownContainer"] p,
+    [data-testid="stMarkdownContainer"] li {
+        color: var(--mauve);
+        line-height: 1.65;
+        font-size: 1rem;
+    }
+
+    [data-testid="stWidgetLabel"] p,
+    [data-testid="stWidgetLabel"] label {
+        color: var(--plum) !important;
+        font-size: 0.96rem !important;
+        font-weight: 650 !important;
+    }
+
+    [data-testid="stTextInput"] input,
+    [data-testid="stNumberInput"] input,
+    [data-baseweb="select"] > div,
+    [data-testid="stTextArea"] textarea {
+        background: var(--white) !important;
+        color: var(--plum) !important;
+        border-color: var(--border) !important;
+        border-radius: 12px !important;
+    }
+
+    [data-baseweb="tag"] {
+        background: var(--rose-100) !important;
+        border: 1px solid var(--rose-200) !important;
+        color: var(--rose-700) !important;
+        border-radius: 999px !important;
+    }
+
+    [data-baseweb="tag"] span {
+        color: var(--rose-700) !important;
+    }
+
+    [data-testid="stRadio"] [role="radiogroup"] label {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.55rem 0.8rem;
+        margin: 0.15rem 0.25rem 0.15rem 0;
+        transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    [data-testid="stRadio"] [role="radiogroup"] label:has([aria-checked="true"]) {
+        background: var(--rose-100);
+        border-color: var(--rose-500);
+        color: var(--rose-700);
+    }
+
+    [data-testid="stRadio"] [role="radiogroup"] label:hover {
+        border-color: var(--rose-500);
+        transform: translateY(-1px);
+    }
+
+    [data-testid="stRadio"] [role="radiogroup"] label:active {
+        transform: translateY(0);
+    }
+
+    div.stButton > button {
+        background: var(--rose-500);
+        color: var(--white) !important;
+        border: 1px solid var(--rose-500);
+        border-radius: 12px;
+        min-height: 3.05rem;
+        font-size: 1rem;
+        font-weight: 750;
+        box-shadow: 0 8px 18px rgba(173, 62, 101, 0.16);
+        transition: background 160ms ease, border-color 160ms ease,
+                    transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    div.stButton > button:hover {
+        background: var(--rose-600);
+        border-color: var(--rose-600);
+        color: var(--white) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 11px 22px rgba(173, 62, 101, 0.22);
+    }
+
+    div.stButton > button:active {
+        background: var(--rose-700);
+        border-color: var(--rose-700);
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(173, 62, 101, 0.18);
+    }
+
+    div.stButton > button:focus-visible {
+        outline: 3px solid rgba(201, 79, 121, 0.28);
+        outline-offset: 3px;
+    }
+
+    [data-testid="stAlert"] {
+        border-radius: 14px;
+        border: 1px solid var(--border);
+    }
+
+    [data-testid="stAlert"]:has([data-testid="stIconWarning"]) {
+        background: #FFF8EA;
+        color: #6E4A20;
+        border-color: #ECD9B6;
+    }
+
+    [data-testid="stAlert"]:has([data-testid="stIconSuccess"]) {
+        background: var(--rose-50);
+        color: var(--rose-700);
+        border-color: var(--rose-200);
+    }
+
+    [data-testid="stAlert"]:has([data-testid="stIconInfo"]) {
+        background: #FFF9FB;
+        color: var(--plum);
+        border-color: var(--border);
+    }
+
+    [data-testid="stMetricLabel"] p,
+    [data-testid="stMetricLabel"] label {
+        color: var(--mauve) !important;
+        font-size: 0.78rem !important;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    [data-testid="stMetricValue"] {
+        color: var(--rose-700) !important;
+        font-size: 1.18rem !important;
+    }
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background: rgba(255, 255, 255, 0.90);
+        border: 1px solid var(--border) !important;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(122, 68, 91, 0.055);
+        padding: 1.25rem 1.35rem;
+        margin-bottom: 1rem;
+        animation: rose-card-enter 360ms ease-out both;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--border), transparent);
+        margin: 1.65rem 0;
+    }
+
+    [data-testid="stMarkdownContainer"] strong {
+        color: var(--plum);
+    }
+
+    @keyframes rose-card-enter {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        [data-testid="stMainBlockContainer"] {
+            padding: 1.25rem 1rem 2.25rem;
+        }
+
+        [data-testid="stVerticalBlockBorderWrapper"] {
+            padding: 1rem;
+        }
+
+        [data-testid="stRadio"] [role="radiogroup"] {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        [data-testid="stVerticalBlockBorderWrapper"],
+        div.stButton > button,
+        [data-testid="stRadio"] [role="radiogroup"] label {
+            animation: none !important;
+            transition: none !important;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Title and introduction
 st.title("🎢 WonderWorld - Smart Attraction Recommender")
 st.markdown("""
