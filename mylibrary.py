@@ -4,7 +4,7 @@
 # Sample attraction data
 # Each attraction is a dictionary with the following keys:
 # - "name": Attraction name
-# - "category": Type of attraction (e.g., "Thrill Ride", "Family Ride", etc.)
+# - "category": A list of attraction categories
 # - "description": Short description
 # - "price": Cost in dollars
 # - "duration": Estimated time in minutes
@@ -13,7 +13,7 @@
 attractions = [
     {
         "name": "Thunder Mountain",
-        "category": "Thrill Ride",
+        "category": ["Thrill", "Great Views"],
         "description": "An exhilarating roller coaster through a mountain landscape.",
         "price": 25,
         "duration": 5,
@@ -21,7 +21,7 @@ attractions = [
     },
     {
         "name": "Jungle Expedition",
-        "category": "Adventure",
+        "category": ["Nature", "Family"],
         "description": "Explore a mysterious jungle on an exciting ride through exotic scenery.",
         "price": 20,
         "duration": 10,
@@ -29,7 +29,7 @@ attractions = [
     },
     {
         "name": "Ice Palace",
-        "category": "Family Ride",
+        "category": ["Family", "Shows"],
         "description": "A magical journey through a frozen wonderland.",
         "price": 15,
         "duration": 8,
@@ -37,7 +37,7 @@ attractions = [
     },
     {
         "name": "Laser Tag Arena",
-        "category": "Interactive",
+        "category": ["Thrill", "Family"],
         "description": "Battle your friends in an indoor laser tag competition.",
         "price": 18,
         "duration": 20,
@@ -45,7 +45,7 @@ attractions = [
     },
     {
         "name": "Carousel Dreams",
-        "category": "Family Ride",
+        "category": ["Family"],
         "description": "A classic carousel ride perfect for all ages.",
         "price": 10,
         "duration": 5,
@@ -53,7 +53,7 @@ attractions = [
     },
     {
         "name": "Pirate Cove",
-        "category": "Adventure",
+        "category": ["Nature", "Family"],
         "description": "Sail the seas and discover hidden pirate treasures.",
         "price": 22,
         "duration": 12,
@@ -61,7 +61,7 @@ attractions = [
     },
     {
         "name": "Space Station",
-        "category": "Sci-Fi",
+        "category": ["Shows", "Great Views"],
         "description": "Travel through outer space in an immersive simulation.",
         "price": 30,
         "duration": 15,
@@ -69,7 +69,7 @@ attractions = [
     },
     {
         "name": "Water Splash Park",
-        "category": "Water Ride",
+        "category": ["Water Rides", "Family"],
         "description": "Cool off with exciting water slides and splash zones.",
         "price": 20,
         "duration": 60,
@@ -77,7 +77,7 @@ attractions = [
     },
     {
         "name": "Mirror Maze",
-        "category": "Interactive",
+        "category": ["Family"],
         "description": "Navigate through a mind-bending maze of mirrors.",
         "price": 12,
         "duration": 15,
@@ -85,7 +85,7 @@ attractions = [
     },
     {
         "name": "Mega Drop",
-        "category": "Thrill Ride",
+        "category": ["Thrill", "Great Views"],
         "description": "Experience the ultimate adrenaline rush with this free-fall ride.",
         "price": 28,
         "duration": 3,
@@ -96,35 +96,36 @@ attractions = [
 
 def recommend_attractions(selected_categories, budget, duration, environment):
     """
-    Recommend attractions based on user preferences.
+    Return attractions matching the visitor's preferences.
     
     Parameters:
-    - selected_categories: List of selected attraction categories (e.g., ["Thrill Ride", "Family Ride"])
-    - budget: Maximum budget in dollars
-    - duration: Available time in minutes
-    - environment: "Indoor", "Outdoor", or "Both"
+    - selected_categories: Categories selected by the visitor
+    - budget: Maximum price for one attraction
+    - duration: Maximum time for one attraction, in minutes
+    - environment: "Indoor", "Outdoor", or "Any"
     
-    Returns:
-    - A list of recommended attractions that match the criteria
-    
-    TODO: IMPLEMENT THIS FUNCTION
-    - Filter attractions by selected categories
-    - Filter by budget (price <= budget)
-    - Filter by available duration (estimated duration <= available duration)
-    - Filter by environment preference
-    - Return the filtered list of attractions
-    
-    Hints:
-    1. Use loops to go through the attractions list
-    2. Use if statements to check each condition
-    3. Add matching attractions to a new list
-    4. Return the results list
+    Returns a list of attractions matching every preference.
     """
-    pass
+    recommendations = []
 
+    for attraction in attractions:
+        category_matches = False
 
-# TODO: Add any additional helper functions as needed
-# Examples of functions you might want to create:
-# - get_all_categories(): Returns unique categories from attractions
-# - filter_by_price(max_price): Returns attractions within a price range
-# - filter_by_duration(max_duration): Returns attractions within time limit
+        for selected_category in selected_categories:
+            if selected_category in attraction["category"]:
+                category_matches = True
+
+        environment_matches = (
+            environment == "Any"
+            or attraction["environment"] == environment
+        )
+
+        if (
+            category_matches
+            and attraction["price"] <= budget
+            and attraction["duration"] <= duration
+            and environment_matches
+        ):
+            recommendations.append(attraction)
+
+    return recommendations

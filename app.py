@@ -2,7 +2,16 @@
 # Main Streamlit application for WonderWorld Attraction Recommendation System
 
 import streamlit as st
-from mylibrary import attractions, recommend_attractions
+from mylibrary import recommend_attractions
+
+
+def get_price(attraction):
+    return attraction["price"]
+
+
+def get_duration(attraction):
+    return attraction["duration"]
+
 
 # Page configuration
 st.set_page_config(
@@ -270,15 +279,13 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Category selection using multiselect
-    # TODO: Extract unique categories from attractions
-    # Hint: Create a list of all unique categories available
     available_categories = [
-        "Thrill Ride",
-        "Family Ride",
-        "Adventure",
-        "Interactive",
-        "Water Ride",
-        "Sci-Fi"
+        "Thrill",
+        "Nature",
+        "Shows",
+        "Great Views",
+        "Family",
+        "Water Rides"
     ]
     
     selected_categories = st.multiselect(
@@ -312,10 +319,16 @@ with col2:
     # Environment preference
     environment = st.radio(
         "🌳 Do you prefer indoor or outdoor attractions?",
-        options=["Indoor", "Outdoor", "Both"],
+        options=["Indoor", "Outdoor", "Any"],
         index=2,
         help="Choose your environment preference"
     )
+
+# Sorting preference
+sort_option = st.selectbox(
+    "📊 Sort recommendations by",
+    options=["Lowest price", "Shortest duration"]
+)
 
 # Divider
 st.divider()
@@ -328,11 +341,17 @@ if st.button("🎯 Recommend Attractions", use_container_width=True):
     if not selected_categories:
         st.warning("⚠️ Please select at least one attraction category to get recommendations.")
     else:
-        # TODO: Call recommend_attractions() function
-        # Pass the user preferences as parameters
-        # Store the results in a variable
-        
-        recommendations = []  # TODO: Replace with actual function call
+        recommendations = recommend_attractions(
+            selected_categories,
+            budget,
+            duration,
+            environment
+        )
+
+        if sort_option == "Lowest price":
+            recommendations.sort(key=get_price)
+        else:
+            recommendations.sort(key=get_duration)
         
         if recommendations:
             # Display results
@@ -351,7 +370,7 @@ if st.button("🎯 Recommend Attractions", use_container_width=True):
                         # Display details in columns
                         detail_col1, detail_col2, detail_col3 = st.columns(3)
                         with detail_col1:
-                            st.metric("Category", attraction['category'])
+                            st.metric("Categories", ", ".join(attraction['category']))
                         with detail_col2:
                             st.metric("Price", f"${attraction['price']}")
                         with detail_col3:
@@ -365,11 +384,7 @@ if st.button("🎯 Recommend Attractions", use_container_width=True):
                         else:
                             st.write("🌳")
         else:
-            # No results message
-            st.info(
-                "😕 No attractions match your preferences. "
-                "Try adjusting your budget, duration, or selecting different categories!"
-            )
+            st.info("No matching attractions found. Try adjusting your preferences.")
 
 # Footer
 st.divider()
